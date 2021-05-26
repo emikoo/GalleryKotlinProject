@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">GalleryEmikooKotlinProject</string>
+    <string name="gallery_photos">Выбор фотографий</string>
+</resources>
