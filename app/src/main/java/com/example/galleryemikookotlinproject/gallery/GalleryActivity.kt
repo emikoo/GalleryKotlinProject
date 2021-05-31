@@ -2,81 +2,49 @@ package com.example.galleryemikookotlinproject.gallery
 
 import android.Manifest
 import android.content.pm.PackageManager
-import android.database.Cursor
+import android.os.Build
 import android.os.Bundle
-import android.provider.MediaStore
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import androidx.loader.content.CursorLoader
-import androidx.loader.content.Loader
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.galleryemikookotlinproject.ImagesGallery
 import com.example.galleryemikookotlinproject.R
-import com.example.galleryemikookotlinproject.model.Photo
+import com.example.galleryemikookotlinproject.model.imageArray
 import kotlinx.android.synthetic.main.activity_gallery.*
 
 
 class GalleryActivity : AppCompatActivity() {
 
     lateinit var adapter: GalleryAdapter
-    val imageList: MutableList<Photo> = mutableListOf()
-    var projection =
-        arrayOf(MediaStore.MediaColumns.DATA)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_gallery)
 
-        getPermission()
+        checkPermissions()
+        setupRecyclerView()
     }
 
-    private fun getPermission() {
-        if (ContextCompat.checkSelfPermission(this,
-                Manifest.permission.READ_CONTACTS)
-            != PackageManager.PERMISSION_GRANTED) {
-
-            if (ActivityCompat.shouldShowRequestPermissionRationale(
-                    this,
-                    Manifest.permission.WRITE_EXTERNAL_STORAGE)
+    private fun checkPermissions() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if ((checkSelfPermission( Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_DENIED)
+                && (checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_DENIED)
             ) {
-                // Show an explanation to the user *asynchronously* -- don't block
-                // this thread waiting for the user's response! After the user
-                // sees the explanation, try again to request the permission.
-            } else {
-                ActivityCompat.requestPermissions(
-                    this,
-                    arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE), 1
-                )
+                val permission = arrayOf(android.Manifest.permission.READ_EXTERNAL_STORAGE)
+                val permissionCoarse = arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                requestPermissions(permission, 1)
+                requestPermissions(permissionCoarse, 2)
             }
-        } else {
-            setupRecyclerView()
-            getAllImages()
         }
     }
 
     private fun setupRecyclerView() {
         adapter = GalleryAdapter()
         recycler_view.adapter = adapter
-        adapter.photoArray = imageList
+        recycler_view.layoutManager = GridLayoutManager(this, 3)
+        adapter.addItems(ImagesGallery.listOfImages(this))
     }
 
-    fun getAllImages() {
-        imageList.clear()
-        val cursor: Cursor? = contentResolver.query(
-            MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
-            projection,
-            null,
-            null,
-            null
-        )
-        if (cursor != null){
-            while (cursor.moveToNext()) {
-                val absolutePathOfImage: String =
-                    cursor.getString(cursor.getColumnIndex(MediaStore.MediaColumns.DATA))
-                val ImageModel = Photo()
-                ImageModel.image = absolutePathOfImage
-                imageList.add(ImageModel)
-            }
-            cursor.close()
-        }
-    }
 }

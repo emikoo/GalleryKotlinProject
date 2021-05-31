@@ -3,6 +3,7 @@ package com.example.galleryemikookotlinproject.gallery
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.example.galleryemikookotlinproject.R
@@ -34,16 +35,22 @@ class GalleryAdapter : BaseAdapter() {
         holder.bind(item)
     }
 
+    fun addItems(items: MutableList<Photo>) {
+        photoArray = items
+        notifyDataSetChanged()
+    }
+
 }
 
 class GalleryViewHolder(itemView: View): BaseViewHolder(itemView){
+    private val image: ImageView = itemView.findViewById(R.id.iv_photo)
     fun bind(item: Photo){
         Glide
-            .with(itemView.iv_photo.context)
+            .with(image.context)
             .load(item.image)
             .placeholder(R.color.color_grey_dark)
             .centerCrop()
             .transition(DrawableTransitionOptions.withCrossFade(500))
-            .into(itemView.iv_photo)
+            .into(image)
     }
 }
