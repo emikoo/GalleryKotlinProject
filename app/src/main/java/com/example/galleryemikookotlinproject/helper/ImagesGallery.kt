@@ -1,4 +1,4 @@
-package com.example.galleryemikookotlinproject
+package com.example.galleryemikookotlinproject.helper
 
 import android.content.Context
 import android.database.Cursor
