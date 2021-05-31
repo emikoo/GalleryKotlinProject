@@ -3,8 +3,8 @@ package com.example.galleryemikookotlinproject.gallery
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.example.galleryemikookotlinproject.R
 import com.example.galleryemikookotlinproject.base.BaseAdapter
 import com.example.galleryemikookotlinproject.base.BaseViewHolder
@@ -13,7 +13,7 @@ import kotlinx.android.synthetic.main.item_photo.view.*
 
 class GalleryAdapter : BaseAdapter() {
 
-    val photoArray = mutableListOf<Photo>()
+    var photoArray = mutableListOf<Photo>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder {
         return GalleryViewHolder(
@@ -38,10 +38,12 @@ class GalleryAdapter : BaseAdapter() {
 
 class GalleryViewHolder(itemView: View): BaseViewHolder(itemView){
     fun bind(item: Photo){
-        itemView.iv_photo
         Glide
             .with(itemView.iv_photo.context)
-            .load(item.url)
+            .load(item.image)
+            .placeholder(R.color.color_grey_dark)
+            .centerCrop()
+            .transition(DrawableTransitionOptions.withCrossFade(500))
             .into(itemView.iv_photo)
     }
 }
