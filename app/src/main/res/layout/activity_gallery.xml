@@ -27,8 +27,50 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginTop="@dimen/title_margin_top"
+        app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+        app:spanCount="3"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@id/gallery_title"
         tools:listitem="@layout/item_photo" />
+    
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/num_selected"
+        android:layout_width="match_parent"
+        android:layout_height="66dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginStart="12dp"
+        android:background="@drawable/view_chosen"
+        android:layout_marginEnd="12dp"
+        android:layout_marginBottom="20dp"
+        android:visibility="gone">
+
+        <TextView
+            android:id="@+id/text_selected"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="Выбрано 2 фотографии"
+            android:layout_marginStart="14dp"
+            android:textSize="18sp"
+            android:textColor="@android:color/black"
+            android:fontFamily="@font/rubic_normal"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"/>
+
+        <Button
+            android:id="@+id/btn_done"
+            android:layout_width="100dp"
+            android:layout_height="36dp"
+            android:text="@string/done"
+            android:textColor="@color/color_white"
+            android:fontFamily="@font/rubik_bold"
+            android:textAllCaps="false"
+            android:background="@drawable/view_button"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_marginEnd="20dp"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

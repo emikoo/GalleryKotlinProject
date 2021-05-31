@@ -8,8 +8,8 @@
     </style>
 
     <style name="title_style">
-        <item name="android:textSize">24sp</item>
-        <item name="android:fontFamily">@font/rubik_normal</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:fontFamily">@font/rubik_bold</item>
         <item name="android:textColor">@color/color_grey_dark</item>
     </style>
 
